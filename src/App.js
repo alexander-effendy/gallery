@@ -18,7 +18,6 @@ function App() {
         setIsLoading(false);
       })
       .catch(err => console.log(err));
-      console.log('kimak')
   }
 
   useEffect(() => {
@@ -28,7 +27,6 @@ function App() {
         // hits is anm array of 20 images and put them into our image state
         setImages(data.hits); 
         setIsLoading(false);
-        console.log('cibai')
       })
       .catch(err => console.log(err));
   }, [term])
