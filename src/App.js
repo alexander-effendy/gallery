@@ -1,22 +1,34 @@
-import { map } from 'lodash';
 import React, {useState, useEffect} from 'react';
 import ImageCard from './components/ImageCard';
 import ImageSearch from './components/ImageSearch';
-
 
 function App() {
 
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true); //after fetching set to false
   const [term, setTerm] = useState('');
+  const [page, setPage] = useState(2);
+
+  const handleLoadMore = () => {
+    setPage(prevPage => prevPage + 1);
+    fetch(`https://pixabay.com/api/?key=${process.env.REACT_APP_PIXABAY_API_KEY}&q=${term}&image_type=photo&pretty=true&per_page=21&page=${page}`)
+      .then(res => res.json())
+      .then(data => {
+        setImages(prevImages => [...prevImages, ...data.hits]); 
+        setIsLoading(false);
+      })
+      .catch(err => console.log(err));
+      console.log('kimak')
+  }
 
   useEffect(() => {
-    fetch(`https://pixabay.com/api/?key=${process.env.REACT_APP_PIXABAY_API_KEY}&q=${term}&image_type=photo&pretty=true`)
+    fetch(`https://pixabay.com/api/?key=${process.env.REACT_APP_PIXABAY_API_KEY}&q=${term}&image_type=photo&pretty=true&per_page=21&page=1`)
       .then(res => res.json())
       .then(data => {
         // hits is anm array of 20 images and put them into our image state
         setImages(data.hits); 
         setIsLoading(false);
+        console.log('cibai')
       })
       .catch(err => console.log(err));
   }, [term])
@@ -37,6 +49,14 @@ function App() {
             <ImageCard key={image.id} image={image}/>
           ))}
         </div>}
+
+
+        <button 
+          className="w-full bg-purple-500 rounded-lg mt-3 mb-2 text-white"
+          onClick={handleLoadMore}
+        >
+          load more
+        </button>
     </div>
   );
 }
