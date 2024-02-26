@@ -42,15 +42,15 @@ function App() {
   }, [page])
 
   return (
-    <div className="container mx-auto flex flex-col pl-20 pr-20">
-      <div className="fixed w-full bg-white">
+    <div className="container mx-auto flex flex-col">
+      <div className="fixed w-full bg-white flex justify-center">
         <ImageSearch searchText={(text) => setTerm(text)} />
       </div>
       
-      <div className="mt-50px">
+      <div className="px-20" style={{ marginTop: '155px' }}>
       {!isLoading && images.length === 0 && <h1 className="text-5xl text-center mx-auto mt-32">No Images Found</h1>}
         {isLoading ? 
-          <h1 className="text-6xl text-center mx-auto mt-32">
+          <h1 className="text-6xl text-center mx-auto">
             Images are being loaded
           </h1> : 
 
